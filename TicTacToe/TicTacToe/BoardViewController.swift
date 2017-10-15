@@ -18,7 +18,9 @@ class BoardViewController: UIViewController {
     //MARK: Actions
     @IBAction func placeMoveButton(_ sender: UIButton) {
         
-        let player = TicTacToeModel.checkMove(sender.tag - 1)
+        let player: Int? = TicTacToeModel.checkMove(sender.tag - 1)
+        
+        //print(player ?? "")
         
         if player == 1 {
             sender.setImage(UIImage(named: "Cross.png"), for: UIControlState())
@@ -31,24 +33,25 @@ class BoardViewController: UIViewController {
         }
         
         PlayAgainButton.isHidden = !TicTacToeModel.checkState()
-        PlayAgainButton.isEnabled = TicTacToeModel.checkState()
+        PlayAgainButton.isEnabled = !PlayAgainButton.isHidden
         GameStateLabel.text = TicTacToeModel.getState()
     }
     
-    @IBAction func PlayAgainAction(_ sender: UIButton) {
-        if sender == PlayAgainButton {
-            TicTacToeModel.reset()
-            PlayAgainButton.isHidden = true
-            PlayAgainButton.isEnabled = false
-            GameStateLabel.text = TicTacToeModel.getState()
-            
-            for tag in 1...9 {
-                let button = view.viewWithTag(tag) as! UIButton
-                button.setImage(nil, for: UIControlState())
-            }
-        }
+    @IBAction func exitGame(_ sender: UIScreenEdgePanGestureRecognizer) {
+        dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func PlayAgain(_ sender: Any) {
+        TicTacToeModel.reset()
+        PlayAgainButton.isHidden = true
+        PlayAgainButton.isEnabled = false
+        GameStateLabel.text = TicTacToeModel.getState()
+        
+        for tag in 1...9 {
+            let button = view.viewWithTag(tag) as! UIButton
+            button.setImage(nil, for: UIControlState())
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

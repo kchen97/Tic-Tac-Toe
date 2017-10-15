@@ -12,6 +12,7 @@ class TicTacToeGame {
     private var activePlayer: Int
     private var Board: [Int]
     private var state: String
+    private var rowIndices = [0, 3, 6]
     
     init() {
         Board = Array(repeating: 0, count: 9)
@@ -48,16 +49,15 @@ class TicTacToeGame {
     
     func checkState() -> Bool {
         
-        for var index in 0..<9 { //Check Rows
+        for index in rowIndices { //Check Rows
             
             if Board[index] == Board[index + 1] && Board[index] == Board[index + 2] && Board[index] != 0 {
                 state = "Player \(Board[index]) Wins!"
                 return true
             }
-            index += 2
         }
         
-        for index in 0..<2 { //Check Columns
+        for index in 0...2 { //Check Columns
             if Board[index] == Board[index + 3] && Board[index] == Board[index + 6] && Board[index] != 0 {
                 state = "Player \(Board[index]) Wins!"
                 return true
